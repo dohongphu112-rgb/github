@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: #0312e1;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 50px;
+        gap: 40px;
+      }
+      .form-container,
+      .profile-container {
+        background: rgb(109, 223, 240);
+        padding: 50px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        width: 300px;
+      }
+      h2 {
+        text-align: center;
+        margin-bottom: 15px;
+      }
+      input {
+        width: 100%;
+        padding: 8px;
+        margin: 20px 0;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      button {
+        width: 100%;
+        padding: 20px;
+        background: #28a745;
+        border: none;
+        border-radius: 5px;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #218838;
+      }
+      .profile {
+        text-align: center;
+      }
+    </style>
+
+    <form action="">
+      <input type="text" name="" id="username" placeholder="Username" />
+
+      <input type="password" name="" id="password" placeholder="Password" />
+
+      <button type="button" class="btn_login">Đăng nhập</button>
+    </form>
+
+    <script>
+      const users = [
+        {
+          username: "admin",
+          password: "123456",
+        },
+        {
+          username: "admin_1",
+          password: "123456",
+        },
+      ];
+      if (!localStorage.getItem("USERS")) {
+        localStorage.setItem("USERS", JSON.stringify(users));
+        // 1. Đẩy dữ liệu lên localStorage
+      }
+      localStorage.getItem("USERS");
+      let localuser = JSON.parse(localStorage.getItem("USERS"));
+      console.log(localuser);
+
+      const eleUsername = document.querySelector("#username");
+      const elePassword = document.querySelector("#password");
+      const eleBtnLogin = document.querySelector(".btn_login");
+
+      function handleLogin() {
+        console.log(eleUsername.value);
+        console.log(elePassword.value);
+        for (let i = 0; i < localuser.length; i++) {
+          console.log(localuser[i].username);
+          console.log(localuser[i].password);
+          if (
+            eleUsername.value == localuser[i].username &&
+            elePassword.value == localuser[i].password
+          ) {
+            console.log("Cho phép đăng nhập");
+
+            window.location.href = "index.html";
+          }
+        }
+      }
+
+      document.addEventListener("click", handleLogin);
+    </script>
+  </body>
+</html>
