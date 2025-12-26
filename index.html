@@ -1,13 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Fastpost</title>
+    <link rel="stylesheet" href="./index.html">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .header {
+        background: #004080;
+        color: #fff;
+        padding: 15px 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      .header .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        font-size: 1.6rem;
+        font-weight: bold;
+      }
+      .nav ul {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+      .nav a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .nav a:hover {
+        text-decoration: underline;
+      }
+      .menu-toggle {
+        font-size: 1.8rem;
+        cursor: pointer;
+        display: none;
+      }
+
+      .hero {
+        background: #3592f0;
+        color: #fff;
+        text-align: center;
+        padding: 80px 20px;
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+      }
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+      }
+      .btn {
+        display: inline-block;
+        background: #ff6600;
+        color: #fff;
+        padding: 12px 25px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .btn:hover {
+        background: #e65c00;
+      }
+
+      section {
+        padding: 50px 0;
+      }
+      h2 {
+        color: #004080;
+        margin-bottom: 20px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .card {
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+      }
+      .card:hover {
+        transform: translateY(-5px);
+      }
+      .footer {
+        background: #004080;
+        color: #fff;
+        text-align: center;
+        padding: 20px 10px;
+      }
+      #toTop {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #ff6600;
+        color: #fff;
+        border: none;
+        padding: 12px 15px;
+        border-radius: 50%;
+        cursor: pointer;
+        font-size: 18px;
+        display: none;
+      }
+
+      .spck {
+        width: 30%;
+      }
+    </style>
   </head>
   <body>
-    <h1>Newspaper</h1>
-    <div class="container">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="container">
+        <div class="logo">Fastpost</div>
+        <nav class="nav">
+          <ul>
+            <li><a href="./test.html">Đăng nhập</li>
+            <li><a href="#">Giới thiệu</a></li>
+            <li><a href="#">Tin tức</a></li>
+            <li><a href="#">Liên hệ</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>ở đây có thông tin</h1>
+      <p>Nơi cập nhật tin tức và dịch vụ mới nhất</p>
+      <a href="./rickroll.html" class="btn">Xem thêm</a>
+    </section>
+
+    <!-- SECTION TIN TỨC -->
+    <section class="container">
+      <h2>Tin tức nổi bật</h2>
+      <div class="grid" id="idgrid"></div>
+    </section>
+
+        <div class="container">
         <div class="row data_render">
         <!-- <div class="col-4 border p-3">
           <img src="image1.jpg" alt="" />
@@ -17,7 +172,31 @@
         </div> -->
         </div>
     </div>
-    <a href="./test.html">Chưa đăng nhập</a>
+
+    <!-- SECTION DỊCH VỤ -->
+    <section class="container">
+      <h2>Dịch vụ</h2>
+      <div class="grid">
+        <div class="card">Dịch vụ Air</div>
+        <div class="card">Dịch vụ nothing</div>
+        <div class="card">Dịch vụ không khí</div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <p>© 2025 Fastpost. All rights reserved.</p>
+    </footer>
+
+    <!-- BUTTON -->
+    <button id="toTop">↑</button>
+
+    <table>
+      <tbody>
+        <tr></tr>
+      </tbody>
+    </table>
+
     <script type="module">
       const eleDataRender = document.querySelector(".data_render");
       // Import the functions you need from the SDKs you need
@@ -52,7 +231,7 @@
 
         eleDataRender.innerHTML += `
         <div class= "box">
-          <img src="${doc.data().img}" class="w:100" alt="" />
+          <img src="${doc.data().img}" />
           <h2>${doc.data().title}</h2>
           <p>${doc.data().des}</p>
         </div>
