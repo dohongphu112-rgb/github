@@ -4,64 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="./assets/style.css">
   </head>
   <body>
-
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background: #0312e1;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        padding: 50px;
-        gap: 40px;
-      }
-      .form-container,
-      .profile-container {
-        background: rgb(109, 223, 240);
-        padding: 50px;
-        border-radius: 10px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        width: 300px;
-      }
-      h2 {
-        text-align: center;
-        margin-bottom: 15px;
-      }
-      input {
-        width: 100%;
-        padding: 8px;
-        margin: 20px 0;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-      button {
-        width: 100%;
-        padding: 20px;
-        background: #28a745;
-        border: none;
-        border-radius: 5px;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-      }
-      button:hover {
-        background: #218838;
-      }
-      .profile {
-        text-align: center;
-      }
-    </style>
-
+<div class="container">
+<h2>Sign Up</h2>
     <form action="">
-      <input type="text" name="" id="username" placeholder="Username" />
+      <input type="text" id="username" placeholder="Username" />
+      <p class="user_err"></p>
 
-      <input type="password" name="" id="password" placeholder="Password" />
-
-      <button type="button" class="btn_login">Đăng nhập</button>
-      <button type="button"><a href="./register.html">Đăng ký</a></button>
+      <input type="text" class="" id="password" placeholder="Password" />
+      <p class="user_pass"></p>
+      <button id="btn_reg" type="button" class="btn_reg">Đăng nhập</button>
+      <a href="./register.html">Đăng Ký</a>
     </form>
+  </div>
 
     <script>
       const users = [
