@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+  
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Messenger Firestore</title>
@@ -8,21 +9,26 @@
   <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
+
 <div class="app">
-  <!-- SIDEBAR -->
+
+  <!-- thanh ngang -->
   <div class="friends">
-  <div class="auth-links">
-  <a href="./login.html">Đăng nhập</a>
-  <span>·</span>
-   <a href="./register.html">Đăng ký</a>
-</div>
+
+    <div class="auth-links">
+      <a href="./login.html">Đăng nhập</a>
+      <span>·</span>
+      <a href="./register.html">Đăng ký</a>
+    </div>
+
     <div class="friends-header">Đoạn chat</div>
     <input class="search" placeholder="Tìm kiếm trên Messenger">
     <div class="friend-list" id="friendList"></div>
   </div>
 
-  <!-- CHAT -->
+  <!-- chat -->
   <div class="chat-app">
+
     <div class="chat-header" id="chatHeader">
       Chọn bạn để chat
     </div>
@@ -33,111 +39,139 @@
       <input id="msgInput" placeholder="Aa">
       <button id="sendBtn">➤</button>
     </div>
+
   </div>
 </div>
 
-  <!-- ===== FIREBASE + JS ===== -->
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-  import{
-      getFirestore,
-      collection,
-      addDoc,
-      query,
-      orderBy,
-      onSnapshot,
-      where,
-      serverTimestamp
-  }from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyBRsYiJX-i97pt7gmg0t0fRrJiKPYmtn_s",
-    authDomain: "jsi36-a45bc.firebaseapp.com",
-    projectId: "jsi36-a45bc",
-    storageBucket: "jsi36-a45bc.firebasestorage.app",
-    messagingSenderId: "346562660239",
-    appId: "1:346562660239:web:18be6a1d29bd8d600dedfa"
-  };
+import { initializeApp,
+        getAuth,
+        onAuthStateChanged
+ } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  where,
+  serverTimestamp,
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-firestore.js";
 
-  // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+const firebaseConfig = {
+  apiKey: "AIzaSyBRsYiJX-i97pt7gmg0t0fRrJiKPYmtn_s",
+  authDomain: "jsi36-a45bc.firebaseapp.com",
+  projectId: "jsi36-a45bc",
+  storageBucket: "jsi36-a45bc.firebasestorage.app",
+  messagingSenderId: "346562660239",
+  appId: "1:346562660239:web:18be6a1d29bd8d600dedfa"
+};
 
-    const friendList = document.getElementById("friendList");
-    const chatBody = document.getElementById("chatBody");
-    const chatHeader = document.getElementById("chatHeader");
-    const input = document.getElementById("msgInput");
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    let currentFriend = null;
-
-    // 👥 LOAD FRIEND LIST
-    onSnapshot(collection(db, "friends"), (snap) => {
-      friendList.innerHTML = "";
-      snap.forEach(doc => {
-        const f = doc.data();
-        const div = document.createElement("div");
-
-        div.className = "friend";
-        div.innerHTML = `
-          <div class="avatar"></div>
-          <div>${f.name}</div>
-        `;
-
-        div.onclick = () => {
-          currentFriend = doc.id;
-          chatHeader.textContent = f.name;
-          loadMessages();
-        };
-
-        friendList.appendChild(div);
-      });
-    });
-
-    // 💬 LOAD MESSAGE THEO FRIEND
-    function loadMessages() {
-      const q = query(
-        collection(db, "messages"),
-        where("friendId", "==", currentFriend),
-        orderBy("createdAt")
-      );
-
-      onSnapshot(q, (snap) => {
-        chatBody.innerHTML = "";
-        snap.forEach(doc => {
-          const d = doc.data();
-          const msg = document.createElement("div");
-
-          msg.className = "message " + (d.isMe ? "right" : "left");
-          msg.textContent = d.text;
-
-          chatBody.appendChild(msg);
-        });
-
-        chatBody.scrollTop = chatBody.scrollHeight;
-      });
-    }
-
+const friendList = document.getElementById("friendList");
+const chatBody = document.getElementById("chatBody");
+const chatHeader = document.getElementById("chatHeader");
+const input = document.getElementById("msgInput");
 const sendBtn = document.getElementById("sendBtn");
 
+let currentFriend = null;
+
+/* LOAD FRIEND LIST */
+onSnapshot(collection(db, "friends"), (snap) => {
+  friendList.innerHTML = "";
+
+  snap.forEach(docu => {
+    const f = docu.data();
+    const div = document.createElement("div");
+
+    div.className = "friend";
+    div.innerHTML = `
+      <div class="avatar"></div>
+      <div>${f.name}</div>
+    `;
+
+    div.onclick = () => {
+      currentFriend = docu.id;
+      chatHeader.textContent = f.name;
+      loadMessages();
+    };
+
+    friendList.appendChild(div);
+  });
+});
+
+/* LOAD MESSAGE */
+function loadMessages() {
+
+  const q = query(
+    collection(db, "messages"),
+    where("friendId", "==", currentFriend),
+    orderBy("createdAt")
+  );
+
+  onSnapshot(q, (snap) => {
+    chatBody.innerHTML = "";
+
+    snap.forEach(docu => {
+      const d = docu.data();
+      const msg = document.createElement("div");
+
+      msg.className = "message " + (d.isMe ? "right" : "left");
+      msg.textContent = d.text;
+
+      chatBody.appendChild(msg);
+    });
+
+    chatBody.scrollTop = chatBody.scrollHeight;
+  });
+}
+
+/* SEND MESSAGE */
 sendBtn.addEventListener("click", () => {
-  if (!currentChatId) return;
+
+  if (!currentFriend) return;
 
   const text = input.value.trim();
   if (!text) return;
 
   addDoc(collection(db, "messages"), {
-    text,
-    chatId: currentChatId,
-    sender: myId,
-    createdAt: Date.now()
+    text: text,
+    friendId: currentFriend,
+    isMe: true,
+    createdAt: serverTimestamp()
   });
 
   input.value = "";
+  const auth = getAuth(app);
+
+const authBox = document.getElementById("authBox");
+const profileBox = document.getElementById("profileBox");
+
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    authBox.classList.remove("hidden");
+    profileBox.classList.add("hidden");
+    return;
+  }
+
+  const snap = await getDoc(doc(db, "users", user.uid));
+  const data = snap.data();
+
+  document.getElementById("miniName").textContent = data.name;
+  document.getElementById("miniUsername").textContent = "@" + data.username;
+
+  authBox.classList.add("hidden");
+  profileBox.classList.remove("hidden");
 });
-  </script>
+});
+
+</script>
+
 </body>
 </html>

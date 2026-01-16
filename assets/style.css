@@ -131,3 +131,26 @@ body {
   height: 40px;
   cursor: pointer;
 }
+.hidden {
+  display: none;
+}
+
+.profile-mini {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+.mini-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ccc;
+}
+
+.mini-username {
+  font-size: 13px;
+  color: #65676b;
+}
